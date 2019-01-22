@@ -1,6 +1,7 @@
 import io
 import os
 import subprocess
+import lzma
 
 file_open = open
 
@@ -14,10 +15,4 @@ def reader(path):
         path : `str`
             the path to the dump file to read
     """
-    p = subprocess.Popen(
-        ['7za', 'e', '-so', path],
-        stdout=subprocess.PIPE,
-        stderr=file_open(os.devnull, "w")
-    )
-    return io.TextIOWrapper(p.stdout, encoding='utf-8',
-                            errors='replace')
+    return lzma.open(path, "rt", encoding = "utf-8", errors = "replace")
